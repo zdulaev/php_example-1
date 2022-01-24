@@ -11,8 +11,6 @@ class Router {
 		foreach ($arr as $key => $value) {
 			$this->add($key, $value);
 		}
-		print_r(this->routes);
-		// debug(this->routes);
 	}
 
 	public function add($route, $params)
@@ -23,13 +21,23 @@ class Router {
 
 	public function match()
 	{
-
+		$url = trim($_SERVER['REQUEST_URI'], '/');
+		foreach($this->routes as $route => $params)
+		{
+			if (preg_match($route, $url, $matches))
+			{
+				$this->params = $params;
+				return True;
+			}
+		}
+		return False;
 	}
 
 	public function run()
 	{
-		echo 'Router start';
+		if ($this->match())
+		{
+			echo 'Маршрут найден!';
+		}
 	}
 }
-
-?>
