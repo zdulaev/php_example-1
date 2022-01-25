@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\View;
+
 class Router {
 
 	protected $routes = [];
@@ -50,17 +52,17 @@ class Router {
 				}
 				else
 				{
-					echo 'Не найден медтод: ' . $action;
+					View::errorCode(404);
 				}
 			}
 			else
 			{
-				echo 'Не найден контроллер: ' . $path;
+				View::errorCode(404);
 			}
 		} 
 		else 
 		{
-			echo '<b>Error №404<br>Страница не найдена</b>';
+			View::errorCode(404);
 		}
 
 	}

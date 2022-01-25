@@ -9,6 +9,7 @@ class AccountController extends Controller
 
 	public function loginAction()
 	{
+		$this->view->redirect('///google.com');
 		$this->view->render('Вход в аккаунт');
 	}
 

@@ -18,11 +18,31 @@ class View
 
 	public function render($title, $vars=[])
 	{
-		ob_start();
-		require 'app/views/' . $this->path . '.php';
-		
-		$content = ob_get_clean();
-		require 'app/views/layouts/' . $this->layout . '.php';
+		if (file_exists('app/views/' . $this->path . '.php'))
+		{
+			extract($vars);
+			ob_start();
+			require 'app/views/' . $this->path . '.php';
+			$content = ob_get_clean();
+			require 'app/views/layouts/' . $this->layout . '.php';
+		} 
+		else 
+		{
+			echo '<b>Вид страницы не найден</b><br>' . $this->path;
+		}
+	}
+
+	public static function errorCode($code)
+	{
+		http_response_code($code);
+		require 'app/views/errors/' . $code . '.php';
+		exit;
+	}
+
+	public function redirect($url)
+	{
+		header('location: ' . $url);
+		exit;
 	}
 
 }
