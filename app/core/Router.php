@@ -1,4 +1,6 @@
-<?php namespace app\core;
+<?php
+
+namespace app\core;
 
 class Router {
 
@@ -37,7 +39,29 @@ class Router {
 	{
 		if ($this->match())
 		{
-			echo 'Маршрут найден!';
+			$path = 'app\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
+			if (class_exists($path))
+			{
+				$action = $this->params['action'] . 'Action';
+				if (method_exists($path, $action))
+				{
+					$controller = new $path($this->params);
+					$controller->$action();
+				}
+				else
+				{
+					echo 'Не найден медтод: ' . $action;
+				}
+			}
+			else
+			{
+				echo 'Не найден контроллер: ' . $path;
+			}
+		} 
+		else 
+		{
+			echo '<b>Error №404<br>Страница не найдена</b>';
 		}
+
 	}
 }
